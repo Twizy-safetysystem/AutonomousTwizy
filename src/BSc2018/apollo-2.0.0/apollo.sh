@@ -125,6 +125,9 @@ function build() {
   # Build python proto
   build_py_proto
 
+  # Build cpp proto
+  build_cpp_proto
+
   # Clear KV DB and update commit_id after compiling.
   rm -fr data/kv_db
   python modules/tools/common/kv_db.py put \
@@ -170,6 +173,17 @@ function apollo_build_dbg() {
 
 function apollo_build_opt() {
   build "opt" $@
+}
+
+function build_cpp_proto() {
+  if [ -d "./cpp_proto" ];then
+    rm -rf cpp_proto
+  fi
+  mkdir cpp_proto
+  PROTOC='./bazel-out/host/bin/external/com_google_protobuf/protoc'
+  find modules/ -name "*.proto" \
+      | grep -v modules/drivers/gnss \
+      | xargs ${PROTOC} --cpp_out=cpp_proto
 }
 
 function build_py_proto() {
