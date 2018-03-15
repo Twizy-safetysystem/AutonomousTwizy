@@ -25,6 +25,11 @@ void VehicleFactory::RegisterVehicleFactory() {
   Register(VehicleParameter::LINCOLN_MKZ, []() -> AbstractVehicleFactory * {
     return new LincolnVehicleFactory();
   });
+
+  // register the new vehicle here.
+  Register(VehicleParameter::RENAULT_TWIZY, []() -> AbstractVehicleFactory* {
+    return new TwizyVehicleFactory();
+  });
 }
 
 std::unique_ptr<AbstractVehicleFactory> VehicleFactory::CreateVehicle(
