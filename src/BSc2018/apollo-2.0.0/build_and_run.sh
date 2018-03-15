@@ -18,6 +18,8 @@ echo "Starting modified container"
 docker/scripts/dev_start.sh -image local_dev >/dev/null 2>&1
 
 xhost +local:root 1>/dev/null 2>&1
+echo "Running bootstrap.sh"
+docker exec -u $USER -it apollo_dev /bin/bash -c '/apollo/scripts/bootstrap.sh'
 docker exec -u $USER -it apollo_dev /bin/bash -c 'cd /apollo/ros/ \
     && source /opt/ros/indigo/setup.bash \
     && catkin_make \
