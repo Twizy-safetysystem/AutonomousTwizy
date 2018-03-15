@@ -52,6 +52,7 @@ nohup.out
 # ROS
 ros_param_server.pid
 .master_snapshot
+ros/
 
 # third_party
 third_party/ros
