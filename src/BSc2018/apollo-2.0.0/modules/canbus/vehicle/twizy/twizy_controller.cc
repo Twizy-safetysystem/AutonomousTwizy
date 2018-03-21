@@ -138,10 +138,10 @@ Chassis TwizyController::chassis() {
   chassis_.set_odometer_m(0);
   chassis_.set_fuel_range_m(0);
   chassis_.set_throttle_percentage(0);
-  chassis_.set_brake_percentage(0);
+  chassis_.set_brake_percentage(5);
   chassis_.set_steering_percentage(0);
   chassis_.set_steering_torque_nm(0);
-  chassis_.set_parking_brake(false);
+  chassis_.set_parking_brake(true);
   
   return chassis_;
 }
