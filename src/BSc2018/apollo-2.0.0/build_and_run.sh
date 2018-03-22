@@ -8,7 +8,7 @@ docker/scripts/dev_start.sh >/dev/null 2>&1
 
 echo "Running apollo.sh build. THIS MAY TAKE A VERY LONG TIME"
 xhost +local:root 1>/dev/null 2>&1
-docker exec -u $USER -it apollo_dev /apollo/apollo.sh build >/dev/null
+docker exec -u $USER -it apollo_dev /apollo/apollo.sh build
 xhost -local:root 1>/dev/null 2>&1
 
 echo "Stopping stock apollo container"
