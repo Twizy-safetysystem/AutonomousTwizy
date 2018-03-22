@@ -33,7 +33,7 @@ const int32_t Currentspeed599::ID = 0x599;
 
 void Currentspeed599::Parse(const std::uint8_t* bytes, int32_t length,
                          ChassisDetail* chassis) const {
-  chassis->mutable_curr_speed()->set_curr_speed(curr_speed(bytes, length));
+  chassis->mutable_twizy()->mutable_curr_speed()->set_curr_speed(curr_speed(bytes, length));
 }
 
 // config detail: {'name': 'curr_speed', 'offset': 0.0, 'precision': 0.01, 'len': 16, 'is_signed_var': True, 'physical_range': '[0|0]', 'bit': 47, 'type': 'double', 'order': 'motorola', 'physical_unit': ''}

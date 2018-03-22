@@ -132,7 +132,7 @@ Chassis TwizyController::chassis() {
   // 3
   // ADD YOUR OWN CAR CHASSIS OPERATION
   // We assume that car isn't in motion when engine starts.
-  chassis_.set_speed_mps(chassis_detail.curr_speed().curr_speed());
+  chassis_.set_speed_mps(chassis_detail.twizy().curr_speed().curr_speed());
   chassis_.set_steering_percentage(0);
   chassis_.set_steering_torque_nm(0);
   chassis_.set_parking_brake(true);
