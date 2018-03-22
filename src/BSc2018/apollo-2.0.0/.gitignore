@@ -11,6 +11,8 @@ WORKSPACE
 # temporary files
 *.swp
 
+# Generated header files cpp_proto
+cpp_proto/
 # javascript
 *bundle.js
 *.worker.js
