@@ -2,6 +2,9 @@ syntax = "proto2";
 
 package apollo.canbus;
 
+import "modules/canbus/proto/chassis.proto";
+
+
 message Steeringangle_0c0h_c0 {
 // Report Message
   // [] [0|0]
