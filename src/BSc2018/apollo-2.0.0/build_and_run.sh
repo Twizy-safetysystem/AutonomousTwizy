@@ -3,6 +3,20 @@
 # This scripts launches the apollo docker with the default image
 # then bulids apollo, launches the modified image and then builds our ROS module
 
+if [ -z $(docker images -q apolloauto/apollo:local_dev) ]; then
+    if [ ! -f apolloimage.zip ]; then
+        echo "Modified image not found. Downloading it"
+        wget https://www.dropbox.com/s/0hbia0ncmi212pg/apolloimage.zip
+    fi
+    echo "Modified image found but not installed. Loading it into docker"
+    unzip -p apolloimage.zip | docker load
+    if [ -z $(docker images -q apolloauto/apollo:local_dev) ]; then
+        echo "Error! Image not found after load. Exiting"
+        exit 5
+    fi
+    echo "Image sucessfully installed. Proceding"
+fi
+
 echo "Starting stock apollo container"
 docker/scripts/dev_start.sh >/dev/null 2>&1
 
