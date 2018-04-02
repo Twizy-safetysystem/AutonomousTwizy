@@ -6,7 +6,7 @@
 if [ -z $(docker images -q apolloauto/apollo:local_dev) ]; then
     if [ ! -f apolloimage.zip ]; then
         echo "Modified image not found. Downloading it"
-        wget https://www.dropbox.com/s/0hbia0ncmi212pg/apolloimage.zip
+        wget https://www.dropbox.com/s/pa727ovfxeme7pe/apolloimage.zip
     fi
     echo "Modified image found but not installed. Loading it into docker"
     unzip -p apolloimage.zip | docker load
@@ -22,7 +22,7 @@ docker/scripts/dev_start.sh >/dev/null 2>&1
 
 echo "Running apollo.sh build. THIS MAY TAKE A VERY LONG TIME"
 xhost +local:root 1>/dev/null 2>&1
-docker exec -u $USER -it apollo_dev /apollo/apollo.sh build
+#docker exec -u $USER -it apollo_dev /apollo/apollo.sh build
 xhost -local:root 1>/dev/null 2>&1
 
 echo "Stopping stock apollo container"
