@@ -136,6 +136,11 @@ Chassis TwizyController::chassis() {
   
   // ADD YOUR OWN CAR CHASSIS OPERATION
   // We assume that car isn't in motion when engine starts.
+  /* The if statements below are what breaks the CAN module in dreamview.
+     When building apollo we get the warning "'chassis_detail_' may be used 
+     uninitialized in this function" which I'm guessing breaks the CAN module.
+     Have not had time to check how to fix this.
+     
   if(!chassis_detail.twizy().curr_speed().has_curr_speed()) {
 	  chassis_detail_->mutable_twizy()->mutable_curr_speed()->set_curr_speed(0);
   }
@@ -155,6 +160,9 @@ Chassis TwizyController::chassis() {
 	  chassis_detail_->mutable_twizy()->mutable_gear_and_pedal()->set_gear_n(false);
 	  chassis_detail_->mutable_twizy()->mutable_gear_and_pedal()->set_gear_d(true);
 	  }
+  */
+
+
   chassis_.set_speed_mps(chassis_detail.twizy().curr_speed().curr_speed());
   
   return chassis_;
