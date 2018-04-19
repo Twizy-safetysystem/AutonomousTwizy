@@ -25,7 +25,7 @@ namespace twizy {
 using ::apollo::drivers::canbus::Byte;
 
 // public
-const int32_t Gear66::ID = 0x98; // ID 152 på CAN i dec.
+const int32_t Gear66::ID = 152; // ID 152 på CAN i dec.
 
 uint32_t Gear66::GetPeriod() const {
   // on event, so value nonsense
