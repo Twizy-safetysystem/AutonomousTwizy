@@ -60,7 +60,7 @@ class Speed65 : public ::apollo::drivers::canbus::ProtocolData<
    */
   virtual void Reset();
 
-  Steering64 *set_ref_speed(double speed);
+  Speed65 *set_ref_speed(double speed);
  
   void set_ref_speed_p(uint8_t *data, double speed);
 

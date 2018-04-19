@@ -48,7 +48,7 @@ Speed65 *Speed65::set_ref_speed(double speed) {
 
 // private
 
-void Steering64::set_ref_speed_p(uint8_t *data, double speed) {
+void Speed65::set_ref_speed_p(uint8_t *data, double speed) {
   double s = htonl(speed);
   data[5] = s;
   
