@@ -49,8 +49,20 @@ Speed65 *Speed65::set_ref_speed(double speed) {
 // private
 
 void Speed65::set_ref_speed_p(uint8_t *data, double speed) {
-  double s = htonl(speed);
-  data[5] = s;
+  speed = 0.1f;
+  float flippedSpeed;
+  char *floatToConvert = ( char* ) & speed;
+  char *returnFloat = ( char* ) & flippedSpeed;
+
+   // swap the bytes into a temporary buffer
+   returnFloat[0] = floatToConvert[3];
+   returnFloat[1] = floatToConvert[2];
+   returnFloat[2] = floatToConvert[1];
+   returnFloat[3] = floatToConvert[0];
+  char *speedLow = (char*) &flippedSpeed;
+  char *speedHigh = &speedLow[1];
+  data[5] = *speedLow;
+  data[6] = *speedHigh;
   
   }
 
