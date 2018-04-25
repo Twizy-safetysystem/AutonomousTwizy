@@ -78,9 +78,18 @@ ErrorCode TwizyController::Init(const VehicleParameter& params,
     AERROR << "Gear66 does not exist in the TwizyMessageManager!";
 	return ErrorCode::CANBUS_ERROR;
   }  
+   
+  speed_65_ = dynamic_cast<Speed65 *>(
+  message_manager_->GetMutableProtocolDataById(Speed65::ID)
+  );
+  if (speed_65_ == nullptr) {
+    AERROR << "Speed65 does not exist in the TwizyMessageManager!";
+  return ErrorCode::CANBUS_ERROR;
+  }  
 
   can_sender_->AddMessage(Steering64::ID, steering_64_, false);
   can_sender_->AddMessage(Gear66::ID, gear_66_, false);
+  can_sender_->AddMessage(Speed65::ID, speed_65_, false);
 
   // need sleep to ensure all messages received
   AINFO << "TwizyController is initialized.";
@@ -121,7 +130,7 @@ Chassis TwizyController::chassis() {
   ChassisDetail chassis_detail;
 
   message_manager_->GetSensorData(&chassis_detail);
-
+  
   // 21, 22, previously 1, 2
   if (driving_mode() == Chassis::EMERGENCY_MODE) {
     set_chassis_error_code(Chassis::NO_ERROR);
@@ -135,11 +144,7 @@ Chassis TwizyController::chassis() {
   
   // ADD YOUR OWN CAR CHASSIS OPERATION
   // We assume that car isn't in motion when engine starts.
-  /* The if statements below are what breaks the CAN module in dreamview.
-     When building apollo we get the warning "'chassis_detail_' may be used 
-     uninitialized in this function" which I'm guessing breaks the CAN module.
-     Have not had time to check how to fix this.
-  */    
+ 
   if(!chassis_detail.twizy().curr_speed().has_curr_speed()) {
 	  chassis_.set_speed_mps(0);
   }
@@ -175,7 +180,6 @@ ErrorCode TwizyController::EnableAutoMode() {
   }
   return ErrorCode::OK;
   // ADD YOUR OWN CAR CHASSIS OPERATION
-  steering_64_->set_enable();
   
   can_sender_->Update();
   const int32_t flag =
@@ -309,6 +313,7 @@ void TwizyController::Brake(double pedal) {
   }
   // ADD YOUR OWN CAR CHASSIS OPERATION
   gear_66_->set_brake_pedalstatus(true);
+  speed_65_->set_ref_speed(0.0);
 }
 
 // drive with old acceleration

@@ -16,6 +16,7 @@ limitations under the License.
 #include "modules/canbus/vehicle/twizy/twizy_message_manager.h"
 #include "modules/canbus/vehicle/twizy/protocol/steering_64.h"
 #include "modules/canbus/vehicle/twizy/protocol/gear_66.h"
+#include "modules/canbus/vehicle/twizy/protocol/speed_65.h"
 #include "modules/canbus/vehicle/twizy/protocol/currentspeed_599.h"
 #include "modules/canbus/vehicle/twizy/protocol/gear_and_breakpedal_59b.h"
 #include "modules/canbus/vehicle/twizy/protocol/steeringangle_0c0h_c0.h"
@@ -28,6 +29,7 @@ TwizyMessageManager::TwizyMessageManager() {
   // Control Messages
   AddSendProtocolData<Steering64, true>();
   AddSendProtocolData<Gear66, true>();
+  AddSendProtocolData<Speed65, true>();
   
   // Report Messages
   AddRecvProtocolData<Steeringangle0c0hc0, true>();
