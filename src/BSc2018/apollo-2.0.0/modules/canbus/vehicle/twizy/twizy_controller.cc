@@ -339,10 +339,9 @@ void TwizyController::Steer(double angle) {
     AINFO << "The current driving mode does not need to set steer.";
     return;
   }
-  const double real_angle = params_.max_steer_angle() * angle / 100.0;
   // reverse sign
   // ADD YOUR OWN CAR CHASSIS OPERATION
-  steering_64_->set_steering_angle(real_angle)->set_steering_angle_speed(200);
+  steering_64_->set_steering_angle(angle)->set_steering_angle_speed(200);
   
 }
 
