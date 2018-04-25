@@ -78,23 +78,21 @@ Steering64 *Steering64::set_steering_angle_speed(double angle_speed) {
 // positive for left, negative for right
 void Steering64::set_steering_angle_p(uint8_t *data, double angle) {
   angle = ProtocolData::BoundedValue(-40.0, 40.0, angle);
-
+  
   Byte frame_high(data + 1);
-  // TODO: ask steering if + is left or right!!!!§
-  // for now assume that left(+) and right(-). write 255 for -, 0 for +.
-  if (angle < 0)
+  //  Left turn is positive(+) and right turn is negative(-). write 255 for -, 0 for +.
+  if (angle < 0) {
     frame_high.set_value(0xFF);
-  else
-    frame_high.set_value(0x00);
+    angle = -angle;
+  } else {
+    frame_high.set_value(0x00);   
+  }
 
-  int32_t a = angle / 0.100000;
-  if (a < 0)
-    a += 0x10000;
-   
-  std::uint8_t t = 0;
-  t = a & 0xFF;
+  char a = (char)((angle / 40.0) * 255);
+  
   Byte frame_low(data + 0);
-  frame_low.set_value(t, 0, 8);
+  frame_low.set_value(a, 0, 8);
+  
 }
 
 void Steering64::set_enable_p(uint8_t *bytes, bool enable) {
