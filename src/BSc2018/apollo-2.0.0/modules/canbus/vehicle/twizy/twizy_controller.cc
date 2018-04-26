@@ -342,7 +342,8 @@ void TwizyController::Steer(double angle) {
   }
   // reverse sign
   // ADD YOUR OWN CAR CHASSIS OPERATION
-  steering_96_->set_steering_angle(angle)->set_steering_angle_speed(200);
+  steering_96_->set_steering_angle(angle);
+  steering_96_->set_steering_angle_speed(200);
   
 }
 
