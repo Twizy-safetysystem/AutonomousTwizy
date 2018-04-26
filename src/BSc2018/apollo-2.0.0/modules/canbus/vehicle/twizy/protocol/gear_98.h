@@ -15,12 +15,12 @@
  *****************************************************************************/
 
 /**
- * @file steering_64.h
- * @brief the class of Steering64 (for lincoln vehicle)
+ * @file gear_98.h
+ * @brief the class of Gear98 (for twizy vehicle)
  */
 
-#ifndef MODULES_CANBUS_VEHICL_TWIZY_PROTOCOL_SPEED_65_H_
-#define MODULES_CANBUS_VEHICL_TWIZY_PROTOCOL_SPEED_65_H_
+#ifndef MODULES_CANBUS_VEHICLE_TWIZY_PROTOCOL_GEAR_98_H_
+#define MODULES_CANBUS_VEHICLE_TWIZY_PROTOCOL_GEAR_98_H_
 
 #include "modules/drivers/canbus/can_comm/protocol_data.h"
 #include "modules/canbus/proto/chassis_detail.pb.h"
@@ -34,11 +34,11 @@ namespace canbus {
 namespace twizy {
 
 /**
- * @class Steering64
+ * @class Gear98
  *
- * @brief one of the protocol data of lincoln vehicle
+ * @brief one of the protocol data of twizy vehicle
  */
-class Speed65 : public ::apollo::drivers::canbus::ProtocolData<
+class Gear98 : public ::apollo::drivers::canbus::ProtocolData<
                     ::apollo::canbus::ChassisDetail> {
  public:
   static const int32_t ID;
@@ -60,17 +60,51 @@ class Speed65 : public ::apollo::drivers::canbus::ProtocolData<
    */
   virtual void Reset();
 
-  Speed65 *set_ref_speed(double speed);
- 
-  void set_ref_speed_p(uint8_t *data, double speed);
+  /**
+   * @brief set gear to none
+   * @return a this pointer to the instance itself
+   */
+  Gear98 *set_gear_none();
+
+  /**
+   * @brief set gear to reverse
+   * @return a this pointer to the instance itself
+   */
+  Gear98 *set_gear_reverse();
+
+  /**
+   * @brief set gear to neutral
+   * @return a this pointer to the instance itself
+   */
+  Gear98 *set_gear_neutral();
+
+  /**
+   * @brief set gear to drive
+   * @return a this pointer to the instance itself
+   */
+  Gear98 *set_gear_drive();
+
+  Gear98 *set_brake_pedalstatus(bool pedal);
 
  private:
-  double speed_ = 0.0;
+  /**
+   * @brief set gear position
+   * config detail: {'name': 'gcmd', 'offset': 0.0, 'precision': 1.0, 'len': 3,
+   * 'f_type': 'value', 'is_signed_var': False, 'physical_range': '[0|0]',
+   * 'bit': 0, 'type': 'int', 'order': 'intel', 'physical_unit': '""'}
+   */
+  void set_gear_p(uint8_t *data, uint8_t gear);
 
-  };
+  void set_brake_pedalstatus_p(uint8_t *data, uint8_t pedal);
+  
+ private:
+  uint8_t gear_ = 0;
+  uint8_t pedal_ = 0;
+  bool update_ = false;
+};
 
 }  // namespace twizy 
 }  // namespace canbus
 }  // namespace apollo
 
-#endif  // MODULES_CANBUS_VEHICL_TWIZY_PROTOCOL_STEERING_64_H_
+#endif  // MODULES_CANBUS_VEHICLE_TWIZY_PROTOCOL_GEAR_98_H_

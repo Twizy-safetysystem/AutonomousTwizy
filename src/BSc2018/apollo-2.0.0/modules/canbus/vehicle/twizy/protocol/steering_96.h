@@ -15,12 +15,12 @@
  *****************************************************************************/
 
 /**
- * @file gear_66.h
- * @brief the class of Gear66 (for twizy vehicle)
+ * @file steering_96.h
+ * @brief the class of Steering96 (for twizy vehicle)
  */
 
-#ifndef MODULES_CANBUS_VEHICLE_TWIZY_PROTOCOL_GEAR_66_H_
-#define MODULES_CANBUS_VEHICLE_TWIZY_PROTOCOL_GEAR_66_H_
+#ifndef MODULES_CANBUS_VEHICL_TWIZY_PROTOCOL_STEERING_96_H_
+#define MODULES_CANBUS_VEHICL_TWIZY_PROTOCOL_STEERING_96_H_
 
 #include "modules/drivers/canbus/can_comm/protocol_data.h"
 #include "modules/canbus/proto/chassis_detail.pb.h"
@@ -34,11 +34,11 @@ namespace canbus {
 namespace twizy {
 
 /**
- * @class Gear66
+ * @class Steering96
  *
- * @brief one of the protocol data of twizy vehicle
+ * @brief one of the protocol data of lincoln vehicle
  */
-class Gear66 : public ::apollo::drivers::canbus::ProtocolData<
+class Steering96 : public ::apollo::drivers::canbus::ProtocolData<
                     ::apollo::canbus::ChassisDetail> {
  public:
   static const int32_t ID;
@@ -60,59 +60,43 @@ class Gear66 : public ::apollo::drivers::canbus::ProtocolData<
    */
   virtual void Reset();
 
-  /**
-   * @brief set gear to none
+    /**
+   * @brief set steering angle
    * @return a this pointer to the instance itself
    */
-  Gear66 *set_gear_none();
+  Steering96 *set_steering_angle(double angle);
 
   /**
-   * @brief set gear to reverse
+   * @brief set steering angle speed
    * @return a this pointer to the instance itself
    */
-  Gear66 *set_gear_reverse();
-
-  /**
-   * @brief set gear to neutral
-   * @return a this pointer to the instance itself
-   */
-  Gear66 *set_gear_neutral();
-
-  /**
-   * @brief set gear to drive
-   * @return a this pointer to the instance itself
-   */
-  Gear66 *set_gear_drive();
-
-  Gear66 *set_brake_pedalstatus(bool pedal);
+  Steering96 *set_steering_angle_speed(double angle_speed);
 
  private:
-  /**
-   * @brief set gear position
-   * config detail: {'name': 'gcmd', 'offset': 0.0, 'precision': 1.0, 'len': 3,
-   * 'f_type': 'value', 'is_signed_var': False, 'physical_range': '[0|0]',
-   * 'bit': 0, 'type': 'int', 'order': 'intel', 'physical_unit': '""'}
-   */
-  void set_gear_p(uint8_t *data, uint8_t gear);
+ /** 
+  * config detail: {'name': 'LWS', 'offset': 0.0, 'precision': 0.1,
+  * 'len': 16, 'is_signed_var': True, 'physical_range': '[-40|40]',
+  * 'bit': 0, 'type': 'double', 'order': 'intel', 'physical_unit':
+  * '\xb0'}
+  */
+  void set_steering_angle_p(uint8_t *data, double angle);
 
-  void set_brake_pedalstatus_p(uint8_t *data, uint8_t pedal);
-  
-  /**
-   * @brief set clear driver override position
-   * config detail: {'name': 'clear', 'offset': 0.0, 'precision': 1.0, 'len': 1,
-   * 'f_type': 'valid', 'is_signed_var': False, 'physical_range': '[0|0]',
-   * 'bit': 7, 'type': 'bool', 'order': 'intel', 'physical_unit': '""'}
-   */
-  void set_clear_driver_override_flag_p(uint8_t *bytes);
+ /** 
+  * config detail: {'name': 'LWS_Speed', 'offset': 0.0, 'precision': 4.0,
+  * 'len': 8, 'is_signed_var': False, 'physical_range': '[0|0]',
+  * 'bit': 16, 'type': 'double', 'order': 'intel', 'physical_unit':
+  * '\xb0/s'} 
+  */
 
- private:
-  uint8_t gear_ = 0;
-  uint8_t pedal_ = 0;
-  bool update_ = false;
+  void set_steering_angle_speed_p(uint8_t *data, double angle_speed);
+
+  private:
+  double steering_angle_ = 0.0;
+  double steering_angle_speed_ = 0.0;
 };
 
 }  // namespace twizy 
 }  // namespace canbus
 }  // namespace apollo
 
-#endif  // MODULES_CANBUS_VEHICLE_TWIZY_PROTOCOL_GEAR_66_H_
+#endif  // MODULES_CANBUS_VEHICL_TWIZY_PROTOCOL_STEERING_96_H_

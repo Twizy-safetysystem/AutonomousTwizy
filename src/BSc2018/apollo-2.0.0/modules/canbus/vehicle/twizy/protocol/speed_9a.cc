@@ -14,7 +14,7 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "modules/canbus/vehicle/twizy/protocol/speed_65.h"
+#include "modules/canbus/vehicle/twizy/protocol/speed_9a.h"
 #include "arpa/inet.h"
 #include "modules/drivers/canbus/common/byte.h"
 
@@ -24,31 +24,31 @@ namespace twizy {
 
 using ::apollo::drivers::canbus::Byte;
 
-const int32_t Speed65::ID = 154; //ID 150 på CAN i dec.
+const int32_t Speed9A::ID = 0x9A; //ID 154 på CAN i dec.
 
-uint32_t Speed65::GetPeriod() const {
+uint32_t Speed9A::GetPeriod() const {
   // receive rate??
   // receive timeout would trigger fault, letting en=0 and etc.
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
-void Speed65::UpdateData(uint8_t *data) {
+void Speed9A::UpdateData(uint8_t *data) {
   set_ref_speed_p(data, speed_);
 }
 
-void Speed65::Reset() {
+void Speed9A::Reset() {
   speed_ = 0.0;
 }
 
-Speed65 *Speed65::set_ref_speed(double speed) {
+Speed9A *Speed9A::set_ref_speed(double speed) {
   speed_ = speed;
   return this;
 }
 
 // private
 
-void Speed65::set_ref_speed_p(uint8_t *data, double speed) {
+void Speed9A::set_ref_speed_p(uint8_t *data, double speed) {
   speed = 0.1f;
   float flippedSpeed;
   char *floatToConvert = ( char* ) & speed;
