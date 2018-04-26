@@ -88,7 +88,8 @@ ErrorCode TwizyController::Init(const VehicleParameter& params,
   }  
 
   can_sender_->AddMessage(Steering96::ID, steering_96_, false);
-  can_sender_->AddMessage(Gear98::ID, gear_98_, false);
+  // Uncommented this because it's not used in Twizy
+  //can_sender_->AddMessage(Gear98::ID, gear_98_, false);
   can_sender_->AddMessage(Speed9A::ID, speed_9a_, false);
 
   // need sleep to ensure all messages received
