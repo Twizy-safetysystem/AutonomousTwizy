@@ -41,7 +41,7 @@ docker exec -u $USER -it apollo_dev /bin/bash -c 'cd /apollo/ros/ \
     && source /opt/ros/indigo/setup.bash \
     && catkin_make \
     && source devel/setup.bash \
-    && rosrun package twizySecurity'
+    && rosrun security twizySecurity'
 xhost -local:root 1>/dev/null 2>&1
 
 echo "Spawning interactive shell"
