@@ -146,26 +146,23 @@ Chassis TwizyController::chassis() {
   // ADD YOUR OWN CAR CHASSIS OPERATION
   // We assume that car isn't in motion when engine starts.
  
-  if(!chassis_detail.twizy().curr_speed().has_curr_speed()) {
-	  chassis_.set_speed_mps(0);
-  }
-  if(!chassis_detail.twizy().steering_angle().has_lws()) {
-	  chassis_.set_steering_percentage(0);
-  }
-  if(!chassis_detail.twizy().steering_angle().has_lws_speed()) {
-	  chassis_.set_steering_torque_nm(0);
-  }
-  if(!chassis_detail.twizy().gear_and_pedal().has_brake_pedalstatus()) {
-	  chassis_.set_brake_percentage(0);
-  }
-  if(!chassis_detail.twizy().gear_and_pedal().has_gear_r() ||
-	  !chassis_detail.twizy().gear_and_pedal().has_gear_n() ||
-	  !chassis_detail.twizy().gear_and_pedal().has_gear_d()) {
-	  chassis_.set_gear_location(Chassis::GEAR_NONE);
-	  }
-  
   chassis_.set_speed_mps(chassis_detail.twizy().curr_speed().curr_speed());
+  chassis_.set_steering_percentage(chassis_detail.twizy().steering_angle().lws());
   
+  if (chassis_detail.twizy().gear_and_pedal().gear_d) {
+	  set_driving_mode(Chassis::COMPLETE_AUTO_DRIVE);
+	  chassis_.set_GearPosition(1); //sets position to GEAR_DRIVE, see twizy.proto
+  }
+
+  //Stops twizyController if brake pedal is pressed or if gear is
+  //changed from drive. This is to stop autonomous driving.
+  if (chassis_detail.twizy().gear_and_pedal().brake_pedalstatus() ||
+	  chassis_detail.twizy().gear_and_pedal().gear_r ||
+	  chassis_detail.twizy().gear_and_pedal().gear_n) {
+	  Emergency();
+	  Stop(); 
+	  }
+
   return chassis_;
 }
 
