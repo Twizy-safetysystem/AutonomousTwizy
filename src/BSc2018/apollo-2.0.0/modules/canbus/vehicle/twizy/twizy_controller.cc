@@ -269,7 +269,7 @@ void TwizyController::Gear(Chassis::GearPosition gear_position) {
   }
   return;
   // ADD YOUR OWN CAR CHASSIS OPERATION
-  switch (gear_position) {
+ /* switch (gear_position) {
     case Chassis::GEAR_NEUTRAL: {
       gear_98_->set_gear_neutral();
       break;
@@ -294,8 +294,8 @@ void TwizyController::Gear(Chassis::GearPosition gear_position) {
     default: {
       gear_98_->set_gear_none();
       break;
-    }
-  }
+    } 
+  } */
   
 }
 
@@ -304,30 +304,35 @@ void TwizyController::Gear(Chassis::GearPosition gear_position) {
 // acceleration:0.0 ~ 7.0, unit:m/s^2
 // acceleration_spd:60 ~ 100, suggest: 90
 // -> pedal
-void TwizyController::Brake(double pedal) {
+void TwizyController::Brake(double brake_percentage) {
   // double real_value = params_.max_acc() * acceleration / 100;
   // TODO Update brake value based on mode
-  if (!(driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
+  /*if (!(driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
         driving_mode() == Chassis::AUTO_SPEED_ONLY)) {
     AINFO << "The current drive mode does not need to set acceleration.";
     return;
-  }
+  }*/
   // ADD YOUR OWN CAR CHASSIS OPERATION
-  gear_98_->set_brake_pedalstatus(true);
+  //gear_98_->set_brake_pedalstatus(true);
   speed_9a_->set_ref_speed(0.0);
 }
 
 // drive with old acceleration
 // gas:0.00~99.99 unit:
-void TwizyController::Throttle(double pedal) {
-  if (!(driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
+void TwizyController::Throttle(double speed) {
+   AINFO<<"this is throttle func with speed in mp/s: " << speed
+   << "\nand in km/h: " << speed*3.6;
+
+  /*if (!(driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
         driving_mode() == Chassis::AUTO_SPEED_ONLY)) {
     AINFO << "The current drive mode does not need to set acceleration.";
     return;
-  }
+  }*/
   /* ADD YOUR OWN CAR CHASSIS OPERATION
   throttle_62_->set_pedal(pedal);
   */
+
+  speed_9a_->set_ref_speed(speed*3.6);
 }
 
 // twizy default, -40 ~ 40, left:+, right:-
@@ -335,15 +340,15 @@ void TwizyController::Throttle(double pedal) {
 // steering with old angle speed
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 void TwizyController::Steer(double angle) {
-  if (!(driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
+  /*if (!(driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
         driving_mode() == Chassis::AUTO_STEER_ONLY)) {
     AINFO << "The current driving mode does not need to set steer.";
     return;
-  }
+  }*/
   // reverse sign
   // ADD YOUR OWN CAR CHASSIS OPERATION
+  AINFO << "the input angle is: " << angle << " degrees?";
   steering_96_->set_steering_angle(angle);
-  steering_96_->set_steering_angle_speed(200);
   
 }
 
@@ -351,11 +356,11 @@ void TwizyController::Steer(double angle) {
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 // angle_spd:0.00~99.99, unit:deg/s
 void TwizyController::Steer(double angle, double angle_spd) {
-  if (!(driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
+  /* if (!(driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
         driving_mode() == Chassis::AUTO_STEER_ONLY)) {
     AINFO << "The current driving mode does not need to set steer.";
     return;
-  }
+  } */
   /* ADD YOUR OWN CAR CHASSIS OPERATION
   const double real_angle = params_.max_steer_angle() * angle / 100.0;
   const double real_angle_spd = ProtocolData::BoundedValue(
@@ -364,6 +369,9 @@ void TwizyController::Steer(double angle, double angle_spd) {
   steering_96_->set_steering_angle(real_angle)
       ->set_steering_angle_speed(real_angle_spd);
   */
+  AINFO << "the input angle is: " << angle << " degrees?";
+  steering_96_->set_steering_angle(angle);
+  
 }
 
 void TwizyController::SetEpbBreak(const ControlCommand& command) {
@@ -488,7 +496,7 @@ void TwizyController::SecurityDogThreadFunc() {
 bool TwizyController::CheckResponse(const int32_t flags, bool need_wait) {
   /* ADD YOUR OWN CAR CHASSIS OPERATION
   */
-  return false;
+  return true;
 }
 
 void TwizyController::set_chassis_error_mask(const int32_t mask) {
