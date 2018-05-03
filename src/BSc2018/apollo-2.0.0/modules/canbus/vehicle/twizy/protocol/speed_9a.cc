@@ -15,7 +15,6 @@
  *****************************************************************************/
 
 #include "modules/canbus/vehicle/twizy/protocol/speed_9a.h"
-#include "arpa/inet.h"
 #include "modules/drivers/canbus/common/byte.h"
 
 namespace apollo {
@@ -49,20 +48,22 @@ Speed9A *Speed9A::set_ref_speed(double speed) {
 // private
 
 void Speed9A::set_ref_speed_p(uint8_t *data, double speed) {
-  speed = 0.1f;
-  float flippedSpeed;
-  char *floatToConvert = ( char* ) & speed;
-  char *returnFloat = ( char* ) & flippedSpeed;
-
-   // swap the bytes into a temporary buffer
-   returnFloat[0] = floatToConvert[3];
-   returnFloat[1] = floatToConvert[2];
-   returnFloat[2] = floatToConvert[1];
-   returnFloat[3] = floatToConvert[0];
-  char *speedLow = (char*) &flippedSpeed;
-  char *speedHigh = &speedLow[1];
-  data[5] = *speedLow;
-  data[6] = *speedHigh;
+  speed = ProtocolData::BoundedValue(0.0, 10.0, speed);
+  
+  /*
+  Byte frame_high(data + 1);
+  //  Left turn is positive(+) and right turn is negative(-). write 255 for -, 0 for +.
+  if (angle < 0) {
+    frame_high.set_value(0xFF);
+    angle = -angle;
+  } else {
+    frame_high.set_value(0x00);   
+  }
+  */
+  char s = (char)((speed / 10.0) * 255);
+  
+  Byte frame_low(data + 5);
+  frame_low.set_value(s, 0, 8);
   
   }
 
