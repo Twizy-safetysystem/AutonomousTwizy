@@ -347,7 +347,7 @@ void TwizyController::Steer(double angle) {
   }*/
   // reverse sign
   // ADD YOUR OWN CAR CHASSIS OPERATION
-  AINFO << "the input angle is: " << angle << " degrees?";
+  angle = -(angle / 100) * 39.5;
   steering_96_->set_steering_angle(angle);
   
 }
