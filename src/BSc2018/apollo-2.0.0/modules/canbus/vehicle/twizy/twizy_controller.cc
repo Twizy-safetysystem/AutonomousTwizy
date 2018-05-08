@@ -70,14 +70,6 @@ ErrorCode TwizyController::Init(const VehicleParameter& params,
     AERROR << "Steering96 does not exist in the TwizyMessageManager!";
 	return ErrorCode::CANBUS_ERROR;
   }  
-
-  gear_98_ = dynamic_cast<Gear98 *>(
-  message_manager_->GetMutableProtocolDataById(Gear98::ID)
-  );
-  if (gear_98_ == nullptr) {
-    AERROR << "Gear98 does not exist in the TwizyMessageManager!";
-	return ErrorCode::CANBUS_ERROR;
-  }  
    
   speed_9a_ = dynamic_cast<Speed9A *>(
   message_manager_->GetMutableProtocolDataById(Speed9A::ID)
@@ -88,8 +80,6 @@ ErrorCode TwizyController::Init(const VehicleParameter& params,
   }  
 
   can_sender_->AddMessage(Steering96::ID, steering_96_, false);
-  // Uncommented this because it's not used in Twizy
-  //can_sender_->AddMessage(Gear98::ID, gear_98_, false);
   can_sender_->AddMessage(Speed9A::ID, speed_9a_, false);
 
   // need sleep to ensure all messages received
@@ -156,13 +146,16 @@ Chassis TwizyController::chassis() {
 
   //Stops twizyController if brake pedal is pressed or if gear is
   //changed from drive. This is to stop autonomous driving.
-  if (chassis_detail.twizy().gear_and_pedal().brake_pedalstatus() ||
+ /* if (chassis_detail.twizy().gear_and_pedal().brake_pedalstatus() ||
 	  chassis_detail.twizy().gear_and_pedal().gear_r() ||
 	  chassis_detail.twizy().gear_and_pedal().gear_n()) {
 	  Emergency();
 	  Stop(); 
 	  }
+	*/
 
+  //inför testa bromspedal
+  chassis_.set_parking_brake(chassis_detail.twizy().gear_and_pedal().brake_pedalstatus());
   return chassis_;
 }
 
