@@ -138,24 +138,13 @@ Chassis TwizyController::chassis() {
  
   chassis_.set_speed_mps(chassis_detail.twizy().curr_speed().curr_speed());
   chassis_.set_steering_percentage(chassis_detail.twizy().steering_angle().lws());
+  chassis_.set_parking_brake(chassis_detail.twizy().gear_and_pedal().brake_pedalstatus());
   
   if (chassis_detail.twizy().gear_and_pedal().gear_d()) {
 	  set_driving_mode(Chassis::COMPLETE_AUTO_DRIVE);
 	  chassis_.set_gear_location(apollo::canbus::Chassis::GEAR_DRIVE); //sets position to GEAR_DRIVE, see twizy.proto
   }
 
-  //Stops twizyController if brake pedal is pressed or if gear is
-  //changed from drive. This is to stop autonomous driving.
- /* if (chassis_detail.twizy().gear_and_pedal().brake_pedalstatus() ||
-	  chassis_detail.twizy().gear_and_pedal().gear_r() ||
-	  chassis_detail.twizy().gear_and_pedal().gear_n()) {
-	  Emergency();
-	  Stop(); 
-	  }
-	*/
-
-  //inför testa bromspedal
-  chassis_.set_parking_brake(chassis_detail.twizy().gear_and_pedal().brake_pedalstatus());
   return chassis_;
 }
 
