@@ -99,6 +99,8 @@ using LocalizationMsfSinsPvaAdapter =
     Adapter<apollo::localization::IntegSinsPva>;
 using LocalizationMsfStatusAdapter =
     Adapter<apollo::localization::LocalizationStatus>;
+using ControlCommand2Adapter =
+	Adapter<apollo::ControlCommand>;
 
 }  // namespace adapter
 }  // namespace common
